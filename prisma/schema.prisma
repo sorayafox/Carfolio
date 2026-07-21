@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Vehicle {
+  id                 Int               @id @default(autoincrement())
+  nickname           String
+  year               Int
+  make               String
+  model              String
+  trim               String
+  color              String
+  vin                String            @unique
+  licensePlate       String
+  fuelType           String
+  transmission       String
+  purchaseDate       DateTime
+  purchasePrice      Float
+  purchaseMileage    Int
+  currentMileage     Int
+  seller             String
+  notes              String
+  warrantyEndDate    DateTime?
+  warrantyEndMileage Int?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  maintenance        MaintenanceItem[]
+  services           ServiceRecord[]
+  concerns           Concern[]
+  expenses           Expense[]
+  documents          Document[]
+  events             TimelineEvent[]
+}
+
+model MaintenanceItem {
+  id                   Int             @id @default(autoincrement())
+  vehicleId            Int
+  vehicle              Vehicle         @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  title                String
+  category             String
+  description          String
+  intervalMiles        Int?
+  intervalMonths       Int?
+  lastCompletedMileage Int?
+  lastCompletedDate    DateTime?
+  nextDueMileage       Int?
+  nextDueDate          DateTime?
+  estimatedCost        Float?
+  notes                String          @default("")
+  services             ServiceRecord[]
+}
+
+model ServiceRecord {
+  id                Int              @id @default(autoincrement())
+  vehicleId         Int
+  vehicle           Vehicle          @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  maintenanceItemId Int?
+  maintenanceItem   MaintenanceItem? @relation(fields: [maintenanceItemId], references: [id], onDelete: SetNull)
+  title             String
+  category          String
+  serviceDate       DateTime
+  mileage           Int
+  provider          String
+  cost              Float
+  description       String
+  notes             String           @default("")
+}
+
+model Concern {
+  id                  Int       @id @default(autoincrement())
+  vehicleId           Int
+  vehicle             Vehicle   @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  title               String
+  category            String
+  severity            String
+  symptoms            String
+  dateFirstNoticed    DateTime
+  mileageFirstNoticed Int
+  status              String
+  mechanicNotes       String    @default("")
+  resolvedDate        DateTime?
+}
+
+model Expense {
+  id        Int      @id @default(autoincrement())
+  vehicleId Int
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  title     String
+  category  String
+  amount    Float
+  date      DateTime
+  mileage   Int?
+  vendor    String
+  notes     String   @default("")
+}
+
+model Document {
+  id              Int       @id @default(autoincrement())
+  vehicleId       Int
+  vehicle         Vehicle   @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  title           String
+  type            String
+  issueDate       DateTime
+  expirationDate  DateTime?
+  provider        String
+  referenceNumber String?
+  notes           String    @default("")
+}
+
+model TimelineEvent {
+  id          Int      @id @default(autoincrement())
+  vehicleId   Int
+  vehicle     Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  type        String
+  title       String
+  description String
+  date        DateTime
+  mileage     Int?
+  amount      Float?
+}
