@@ -9,6 +9,9 @@ Carfolio should help an owner understand what their vehicle needs, why it matter
 - Preserve the Next.js App Router, React, TypeScript, Prisma, and SQLite architecture.
 - Persist authoritative vehicle data through Prisma. Do not use browser storage as the record of truth.
 - Keep calculations in shared helpers or server routes when they affect multiple views.
+- Prefer verified deterministic answers for common safety and ownership questions; use Ollama for questions that require open-ended explanation or synthesis.
+- Treat visible owner guidance as shared product knowledge: place reusable symptom, weather, and Quick Help content in `lib/` modules consumed by both the UI and chat route rather than duplicating it inside components.
+- Treat `POST /api/ai/chat` as a public behavior boundary. Preserve its answer, evidence, citation, and navigation-action contracts.
 - Use fictional providers and identifiers in seed data.
 - Never present a seeded concern as a confirmed defect.
 - Clearly distinguish manufacturer recommendations, Carfolio estimates, weather context, and actual vehicle sensor data.
@@ -21,12 +24,14 @@ Carfolio should help an owner understand what their vehicle needs, why it matter
 - Every visible action must work. Remove controls that are only decorative.
 - Maintain keyboard focus states, semantic labels, responsive layouts, and reduced-motion support.
 - Preserve unrelated user changes and do not reset the local database without explicit approval.
+- Keep product documentation broad and durable: document intent, boundaries, extension points, and user-visible behavior; avoid freezing incidental copy, exact test inventories, or tunable implementation counts into requirements.
 
 ## Required validation
 
 Run before handing off material changes:
 
 ```bash
+npm test
 npm run typecheck
 npm run build
 ```
@@ -36,10 +41,17 @@ For schema changes, also run:
 ```bash
 npm run db:generate
 npm run db:push
-npm run db:seed
 ```
 
-Do not reseed when validating changes against user-entered local data unless resetting that data is intended.
+Run `npm run db:seed` only when intentionally recreating demo data. It deletes existing local records and is not a routine validation command.
+
+`npm run lint` is expected once the repository has an ESLint 9 flat configuration. Until then, record the missing configuration as a validation limitation rather than claiming lint passed.
+
+## Project skills
+
+- Use `.agents/skills/tdd` for test-first feature or bug work. Agree on the public seam, demonstrate a failing behavior test, implement the smallest passing change, and repeat vertically.
+- Use `.agents/skills/impeccable` for scoped frontend critique or refinement. Preserve the incumbent Carfolio structure unless the user explicitly requests a redesign, and run its detector once after UI edits.
+- Skills guide the workflow; repository product rules and user instructions still define scope and truth.
 
 ## UX principles
 
@@ -51,3 +63,6 @@ Do not reseed when validating changes against user-entered local data unless res
 - Treat generated images as project assets and include meaningful alternative text.
 - Put direct verdicts before supporting checklists in trip and safety workflows.
 - Keep emergency guidance globally discoverable without adding sidebar density.
+- In local AI, show where an answer came from and offer a direct in-product action when an existing Carfolio workflow can help next.
+- Keep the combined health score explicitly record-based, and let urgent safety observations outrank routine maintenance in Today’s Priority.
+- Reduce repeat entry by reusing safe, editable values such as the current date, current mileage, and most recently used provider.

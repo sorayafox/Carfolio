@@ -7,12 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
+    "test": "node --import tsx --env-file=.env --test tests/**/*.test.ts",
     "typecheck": "tsc --noEmit",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev --name init",
     "db:seed": "tsx prisma/seed.ts",
-    "db:reset": "rm -f prisma/dev.db && npx prisma migrate reset --force"
+    "db:reset": "rm -f prisma/dev.db && npx prisma migrate reset --force",
+    "manual:import": "tsx scripts/import-kitty-manual.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.16.3",

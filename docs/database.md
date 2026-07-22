@@ -15,6 +15,9 @@ Vehicle
   ├─ Expense
   ├─ Document
   └─ TimelineEvent
+
+ManualDocument
+  └─ ManualPage
 ```
 
 All child records belong to a vehicle and use cascading deletion from the vehicle. Deleting a maintenance item sets its relationship on existing service records to null so service history remains intact.
@@ -25,9 +28,13 @@ All child records belong to a vehicle and use cascading deletion from the vehicl
 
 Stores nickname, year, make, model, trim, color, VIN, plate, fuel type, transmission, purchase details, current mileage, seller, notes, warranty limits, and timestamps. VIN is unique.
 
+Multiple `Vehicle` rows can coexist. The selected active vehicle is a UI preference stored in a cookie rather than a vehicle fact. Creating a vehicle also creates editable starter maintenance items and an initial timeline event in one transaction.
+
 ### MaintenanceItem
 
 Stores title, category, description, optional mileage/month intervals, last completion values, next due values, estimated cost, and notes. Status is calculated rather than persisted so it cannot become stale.
+
+The owner may override `nextDueMileage`, `nextDueDate`, and future repeat intervals when a dealer supplies a different recommendation. This updates the personal `MaintenanceItem` only; manufacturer guide content remains application reference material. The source or reason can be stored in `notes`, and the adjustment creates a `TimelineEvent`.
 
 ### ServiceRecord
 
@@ -48,6 +55,12 @@ Stores document metadata: title, type, issue date, optional expiration, provider
 ### TimelineEvent
 
 Stores event type, title, description, date, optional mileage, and optional amount. It acts as a durable ownership audit trail.
+
+### ManualDocument and ManualPage
+
+`ManualDocument` records the official Toyota manual code, title, source URL, import time, and indexed page count. `ManualPage` stores extracted text and the original one-based PDF page number. This reference corpus is separate from car's ownership records and supports low-memory, page-cited retrieval. The PDF itself is not retained in the repository or database.
+
+Chat messages, evidence labels, verified-answer actions, model responses, and answer-quality results are not stored. The drawer keeps conversation state only in React for the current page session. Verified answers read current Prisma records at request time and shared application registries at runtime, so mileage, maintenance, symptom, and Quick Help guidance do not require duplicate cache tables.
 
 ## Calculated state
 
@@ -77,13 +90,15 @@ Completing maintenance uses one Prisma transaction:
 
 ## Seed data
 
-`prisma/seed.ts` resets and recreates a fictional demo vehicle named Kitty and associated records. Running it deletes existing local records; it must not be used casually against user data.
+`prisma/seed.ts` resets and recreates a fictional demo vehicle named car and associated records. Running it deletes existing local records; it must not be used casually against user data.
 
 ## Known limitations and future migrations
 
 - Monetary values currently use floating-point columns. A production financial migration should store integer cents.
 - There is no `User` or ownership/authorization model.
-- Manufacturer schedule content and education content are currently application content, not normalized database records.
+- Manufacturer schedule and education content remain application content rather than normalized database records. Local chat messages are session-only and are not persisted.
+- Verified chat templates and shared owner guidance are application code, not database rows. New guidance families can extend these registries without a schema migration. They may read current records but do not modify them; saving an observation remains an explicit records API action.
+- Manual text search is lexical rather than semantic; differently phrased questions may need improved query expansion in a future version.
 - Weather location is not persisted.
 - Recall responses, trip inputs, and seasonal checklist state are not persisted.
 - Generated PDFs are downloaded by the browser and are not stored in SQLite.

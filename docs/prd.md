@@ -4,7 +4,7 @@
 
 Carfolio is a complete vehicle ownership dashboard and digital health record. It combines a vehicle profile, maintenance intelligence, service history, ownership costs, editable document metadata, observations, local driving conditions, vehicle education, trip readiness, recall context, emergency guidance, and portable reporting.
 
-The initial experience is centered on Kitty, a dark-grey 2024 Toyota Corolla Hybrid LE.
+The initial experience is centered on car, a dark-grey 2024 Toyota Corolla Hybrid LE.
 
 ## Problem
 
@@ -18,7 +18,7 @@ Carfolio should answer:
 - What happened during ownership and how much did it cost?
 - What should current weather make me check?
 - What does each major vehicle system do, and which warning signs matter?
-- Is Kitty ready for the full mileage of a planned trip?
+- Is car ready for the full mileage of a planned trip?
 - What should I do first during a common roadside or ownership emergency?
 
 ## Product outcomes
@@ -26,8 +26,10 @@ Carfolio should answer:
 1. Reduce missed maintenance and expiration dates.
 2. Translate mileage, time, weather, and service history into clear actions.
 3. Improve the owner’s working knowledge of their specific vehicle.
-4. Produce a trustworthy ownership record that supports repair decisions and resale.
-5. Help a first-time owner make safer decisions before a trip or during a common roadside situation.
+4. Let the owner ask plain-language questions grounded in car's records, Toyota's official manual, or clearly labeled general education.
+5. Produce a trustworthy ownership record that supports repair decisions and resale.
+6. Help a first-time owner make safer decisions before a trip or during a common roadside situation.
+7. Answer frequent ownership questions quickly without unnecessarily loading a local language model into memory.
 
 ## Primary user
 
@@ -39,6 +41,10 @@ An everyday vehicle owner who wants to care for their car without becoming a mec
 
 Store identity, specifications, purchase data, mileage, seller, notes, and warranty limits. Users can edit the full profile through a persisted form.
 
+- Support multiple vehicles with one clearly selected active vehicle.
+- Keep car's Toyota Corolla Hybrid as the curated product focus; additional vehicles use a neutral VIN setup without model-specific templates.
+- Allow official NHTSA VIN lookup to populate available identity fields while requiring the owner to confirm mileage, color, plate, purchase, and ownership information.
+
 ### Maintenance intelligence
 
 - CRUD for personal maintenance items.
@@ -47,6 +53,8 @@ Store identity, specifications, purchase data, mileage, seller, notes, and warra
 - Single or multi-select completion workflows.
 - Completion creates service history, one correctly aggregated expense, and a timeline event.
 - Completion recalculates next mileage and date.
+- Users can adjust a personal item’s next mileage/date and repeat interval to match a dealer recommendation without changing the official manufacturer reference schedule.
+- Service completion and service-history entry should prefill safe, editable values already known to Carfolio: today’s date, current mileage, and the most recently used provider.
 
 ### Ownership records
 
@@ -57,14 +65,29 @@ Persist service history, concerns, expenses, editable insurance/registration/doc
 - Calculate a transparent score from maintenance readiness, open observations, document coverage, and record freshness.
 - Explain category weights and deductions and link each deduction to a useful action.
 - State that the score reflects saved records, not a physical inspection or live diagnostic feed.
+- Present one combined score rather than competing health metrics, while preserving the weighted category breakdown.
 
 ### Conditions
 
 Use local forecast data to provide contextual guidance for tire pressure, traction, visibility, battery stress, fluids, and hybrid cooling. Weather is not presented as sensor data.
 
+Weather guidance shared with local AI must come from the same application source so the Conditions page and chatbot do not drift. The Conditions page remains the source for live, location-selected forecast context.
+
+### Local AI assistant
+
+- Answer in plain language using three visible evidence levels: car’s records, Toyota manual, and general explanation.
+- Use verified deterministic responses for frequent questions when Carfolio already has the required records or approved guidance.
+- Use bounded Toyota-manual retrieval and local Ollama only when a question needs synthesis.
+- Check shared Symptom Navigator, Quick Help, weather, trip, maintenance, and record guidance before loading Ollama.
+- Answer common safety, symptom, maintenance, and ownership questions from the same guidance sources that power visible tools. The initial intent set is representative and should be expandable without changing the response contract.
+- Reject echoed questions, empty responses, unsupported manual evidence, and citations to pages that were not retrieved.
+- Provide direct actions into existing Carfolio workflows, such as Conditions, the trip planner, or Maintenance.
+- Keep chat history session-only and exclude sensitive ownership fields from model context.
+- Keep local-model memory use conservative so the assistant remains practical on consumer hardware.
+
 ### Vehicle education
 
-Provide a searchable, Kitty-specific component guide with:
+Provide a searchable, car-specific component guide with:
 
 - What the component is
 - Why it matters
@@ -80,7 +103,7 @@ Provide a searchable, Kitty-specific component guide with:
 - Provide non-diagnostic symptom guidance that can be persisted as an observation.
 - Read model-level recall data from NHTSA and direct users to VIN-specific confirmation.
 - Provide seasonal preparation guidance without representing weather as sensor data.
-- Export a readable, paginated PDF ownership report.
+- Export a concise, paginated mechanic handoff with only service-relevant vehicle information.
 - Keep Toyota-specific emergency guidance globally accessible without crowding navigation.
 - Link safety-critical procedures to official Toyota owner resources, plus NHTSA where appropriate.
 
@@ -112,3 +135,7 @@ The condensed sidebar keeps Overview, My Car, Maintenance, Car Guide, Conditions
 - Pre-trip readiness changes immediately when the planned round-trip mileage crosses a saved service limit.
 - The dashboard date rolls over automatically without a code change.
 - Emergency guidance is reachable from every section without occupying permanent sidebar space.
+- Common brake-pad, pre-trip, and cold-weather PSI questions return verified, useful answers without requiring Ollama.
+- Common questions already covered by Carfolio return verified guidance without requiring Ollama and open the relevant existing workflow.
+- A verified chat answer can navigate directly to the related existing Carfolio workflow.
+- Regression tests protect the public AI response contract.

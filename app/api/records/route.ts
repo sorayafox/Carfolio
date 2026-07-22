@@ -14,9 +14,10 @@ export async function PATCH(req:Request){
  for(const k of ["date","serviceDate","dateFirstNoticed","issueDate","expirationDate","nextDueDate","resolvedDate"]) {
   if(clean[k]!==undefined)clean[k]=clean[k]?new Date(clean[k]):null;
  }
+ if(type==="maintenance"&&clean.nextDueMileage!==undefined){const vehicle=await prisma.vehicle.findUnique({where:{id:existing.vehicleId},select:{currentMileage:true}});if(!vehicle||clean.nextDueMileage===null||!Number.isFinite(clean.nextDueMileage)||clean.nextDueMileage<vehicle.currentMileage)return NextResponse.json({error:`Next due mileage must be at least the current odometer (${vehicle?.currentMileage?.toLocaleString()||"unknown"} miles).`},{status:400});}
  if(type==="concern"){if(clean.status==="Resolved"&&!clean.resolvedDate)clean.resolvedDate=new Date();if(clean.status!=="Resolved")clean.resolvedDate=null;}
  const updated=await (prisma[model] as any).update({where:{id:Number(id)},data:clean});
- await prisma.timelineEvent.create({data:{vehicleId:existing.vehicleId,type,title:`${clean.title||existing.title} updated`,description:type==="concern"?`Observation status changed to ${clean.status||existing.status}.`:`${type[0].toUpperCase()+type.slice(1)} details were updated.`,date:new Date(),mileage:clean.mileage||clean.mileageFirstNoticed||null,amount:clean.amount||clean.cost||null}});
+ await prisma.timelineEvent.create({data:{vehicleId:existing.vehicleId,type,title:`${clean.title||existing.title} updated`,description:type==="concern"?`Observation status changed to ${clean.status||existing.status}.`:type==="maintenance"?`Personal schedule adjusted${clean.nextDueMileage?` to ${clean.nextDueMileage.toLocaleString()} miles`:""}${clean.nextDueDate?` / ${clean.nextDueDate.toLocaleDateString("en-US")}`:""}. Toyota’s published schedule was not changed.`:`${type[0].toUpperCase()+type.slice(1)} details were updated.`,date:new Date(),mileage:type==="maintenance"?clean.nextDueMileage:clean.mileage||clean.mileageFirstNoticed||null,amount:clean.amount||clean.cost||null}});
  return NextResponse.json(updated);
 }
 export async function DELETE(req:Request){const {type,id}=await req.json();const model=models[type as keyof typeof models];if(!model)return NextResponse.json({error:"Invalid record type"},{status:400});await (prisma[model] as any).delete({where:{id:Number(id)}});return NextResponse.json({ok:true});}

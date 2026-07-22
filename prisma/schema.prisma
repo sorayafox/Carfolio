@@ -123,3 +123,24 @@ model TimelineEvent {
   mileage     Int?
   amount      Float?
 }
+
+model ManualDocument {
+  id         Int          @id @default(autoincrement())
+  manualCode String       @unique
+  title      String
+  sourceUrl  String
+  pageCount  Int
+  importedAt DateTime     @default(now())
+  pages      ManualPage[]
+}
+
+model ManualPage {
+  id         Int            @id @default(autoincrement())
+  documentId Int
+  document   ManualDocument @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  pageNumber Int
+  text       String
+
+  @@unique([documentId, pageNumber])
+  @@index([documentId])
+}
