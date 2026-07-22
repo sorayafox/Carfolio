@@ -25,6 +25,7 @@
 - Do not allow current mileage below purchase mileage or below the previously recorded odometer in the mileage workflow.
 - Display dates with a consistent user-facing formatter.
 - Treat money as USD in this version. A future financial model should use integer minor units rather than floating-point values.
+- Treat trip distance as the complete round trip and compare its projected ending odometer with saved service limits.
 
 ## API behavior
 
@@ -48,10 +49,20 @@
 - Use “observation” rather than “defect” until confirmed.
 - Avoid promising that estimates are manufacturer requirements.
 - Use “could,” “may,” and “check” for weather-derived guidance.
+- Never imply that crossing a service interval guarantees component damage; explain the calculation and recommend service confirmation.
+- Label model-level recall results separately from VIN-specific status.
+- Emergency guidance must name stop conditions and link to an official manual, placard, government source, or qualified professional.
+
+## Reports
+
+- PDF exports must remain readable with long values and multiple pages.
+- Include generation time, page numbering, and a limits disclaimer.
+- Do not send ownership data to a third-party PDF service.
+- Use ASCII hyphens in generated PDF content to avoid missing glyphs.
 
 ## Files and changes
 
 - Keep generated vehicle imagery in `public/`.
 - Do not commit `.env`, database files, build output, logs, or TypeScript build metadata.
 - Update documentation when calculation rules, persistence behavior, or navigation changes.
-
+- Keep the seven product documents together in `docs/`; keep only the minimal root `AGENTS.md` pointer required by tooling.

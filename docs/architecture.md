@@ -9,7 +9,9 @@ Browser
   ├─ Server-rendered route: /[section]
   ├─ Client UI and forms: components/AppShell.tsx
   ├─ Browser geolocation (optional)
-  └─ Open-Meteo forecast request
+  ├─ Open-Meteo forecast request
+  ├─ NHTSA model-level recall request
+  └─ Client-side PDF generation
           │
           ▼
 Next.js route handlers
@@ -35,6 +37,8 @@ Prisma Client → SQLite (prisma/dev.db)
 - `components/AppShell.tsx` contains navigation, section presentation, modal forms, weather loading, education content, and client interactions.
 - `router.refresh()` reloads server-derived data after a successful mutation.
 - Device geolocation is requested only after the user selects **Use my location**.
+- The dashboard date refreshes every minute so an open session rolls over correctly.
+- Trip and seasonal checklist state is intentionally session-only; saved symptom observations use the records API.
 
 ### API routes
 
@@ -47,6 +51,8 @@ Prisma Client → SQLite (prisma/dev.db)
 ### Domain calculations
 
 - `lib/calculations.ts` owns maintenance-status rules and currency formatting used by server logic.
+- `lib/health.ts` calculates the transparent weighted health score, category deductions, and remediation summaries from loaded vehicle records.
+- `lib/ownership-report-pdf.ts` converts loaded records into a dependency-free PDF byte stream for browser download.
 - Date and mileage thresholds should not be duplicated across API routes and pages.
 
 ### Persistence
@@ -59,6 +65,12 @@ Prisma Client → SQLite (prisma/dev.db)
 
 The Conditions page requests forecast data from Open-Meteo. Forecast failure must not affect persisted ownership records or other routes. The default location is the Los Angeles area; precise location is used only with permission and is not persisted.
 
+Owner Tools reads model-level recall results from NHTSA without storing them or presenting them as VIN-specific status. Emergency links point to official Toyota properties. External-service failure must never prevent access to local ownership records.
+
+## Report generation
+
+PDF reports are generated in the browser from the already-loaded vehicle record; ownership data is not uploaded to a conversion service. The generator wraps long lines, paginates sections, uses built-in PDF fonts, and includes generation time and page numbers.
+
 ## Transaction boundaries
 
 Maintenance completion is atomic. Updates to maintenance items, service records, the aggregated expense, and timeline event either all succeed or all fail.
@@ -66,4 +78,3 @@ Maintenance completion is atomic. Updates to maintenance items, service records,
 ## Deployment considerations
 
 The current database is a local SQLite file. A multi-device or hosted version requires a durable hosted relational database, authentication, per-user ownership checks, secrets management, and a migration plan. SQLite should not be treated as a horizontally scalable production store.
-

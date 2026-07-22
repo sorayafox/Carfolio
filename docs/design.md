@@ -16,7 +16,7 @@ Surface “what needs attention” before presenting every record. Explanations 
 
 ### Progressive disclosure
 
-The sidebar exposes five frequent destinations. Historical pages are grouped under Records. Forms use modals, and detailed educational content is selected one system at a time.
+The sidebar exposes six frequent destinations. Historical pages are grouped under Records. Owner Tools uses tabs to keep multiple utilities in one destination, while emergency help uses a compact global launcher and focused drawer.
 
 ### Concise but thorough
 
@@ -39,6 +39,9 @@ Use short titles, one-line summaries, and scannable metrics. Keep deeper context
 - Due Soon: amber
 - Due Now: orange
 - Overdue: red
+- Trip ready: green
+- Trip crosses a future limit: amber
+- Service required before trip: red
 
 Never rely on color alone; always show a text label.
 
@@ -48,10 +51,12 @@ Use the system sans stack for navigation, labels, forms, and metrics. Use the re
 
 ## Navigation
 
-- Primary: Overview, My Car, Maintenance, Car Guide, Conditions
+- Primary: Overview, My Car, Maintenance, Car Guide, Conditions, Owner Tools
 - Expandable Records: Service History, Things to Watch, Expenses, Documents, Timeline
 - Footer: vehicle health and Settings
 - Kitty’s vehicle switcher opens Garage
+
+The vehicle-health footer is a navigation control, not a decorative metric. It shows the calculated score and state, then opens the full inspection breakdown.
 
 Active states use both contrast and color. Child navigation is indented and separated by a subtle rail.
 
@@ -62,7 +67,10 @@ Active states use both contrast and color. Child navigation is indented and sepa
 - Vehicle hero: photo plus key ownership facts and one action.
 - Table: clear columns, comfortable row height, and visible row actions.
 - Modal: focused title, short context, grouped fields, and explicit cancel/save actions.
-- Learning panel: component selection, explanation, warning signs, safe checks, and maintenance connection.
+- Learning panel: component selection, first-owner explanation, normal-versus-warning comparison, Kitty-specific insight, expandable vocabulary and expert tips, safe checks, and maintenance connection.
+- Trip verdict: projected odometer, direct readiness language, affected service names, and an explanation of the calculation.
+- Emergency drawer: topic selector, safety warning, ordered actions, official links, and an obvious close control.
+- PDF report: restrained blue hierarchy, readable single-column sections, consistent margins, and page numbers.
 
 ## Accessibility
 
@@ -76,4 +84,8 @@ Active states use both contrast and color. Child navigation is indented and sepa
 ## Responsive behavior
 
 At tablet sizes, reduce secondary columns and stack dense card grids. At mobile sizes, use an off-canvas sidebar, single-column content, horizontally scrollable secondary controls where necessary, and forms with one field per row.
+# Progressive owner help
 
+Owner tools live in one concise navigation destination. Emergency help is a small persistent action that opens a focused drawer, keeping safety guidance discoverable without occupying the main workspace.
+
+On small screens the emergency launcher becomes icon-sized. The calculated trip verdict appears before the supporting physical checklist so the owner does not confuse checked boxes with mechanical readiness.

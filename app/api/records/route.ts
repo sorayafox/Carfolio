@@ -2,4 +2,21 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 const models={maintenance:"maintenanceItem",service:"serviceRecord",concern:"concern",expense:"expense",document:"document"} as const;
 export async function POST(req:Request){ const {type,data}=await req.json(); const model=models[type as keyof typeof models]; if(!model)return NextResponse.json({error:"Invalid record type"},{status:400}); const clean:any={...data,vehicleId:Number(data.vehicleId)}; for(const k of ["amount","cost","mileage","estimatedCost","intervalMiles","intervalMonths","nextDueMileage","mileageFirstNoticed"]) if(clean[k]!==undefined&&clean[k]!=="") clean[k]=Number(clean[k]); for(const k of ["date","serviceDate","dateFirstNoticed","issueDate","expirationDate","nextDueDate"]) if(clean[k]) clean[k]=new Date(clean[k]); const created=await (prisma[model] as any).create({data:clean}); const eventDate=clean.date||clean.serviceDate||clean.issueDate||clean.dateFirstNoticed||new Date(); await prisma.timelineEvent.create({data:{vehicleId:clean.vehicleId,type,title:clean.title,description:`${type[0].toUpperCase()+type.slice(1)} record added.`,date:eventDate,mileage:clean.mileage||clean.mileageFirstNoticed||null,amount:clean.amount||clean.cost||null}}); return NextResponse.json(created); }
+export async function PATCH(req:Request){
+ const {type,id,data}=await req.json();const model=models[type as keyof typeof models];
+ if(!model||!Number.isInteger(Number(id)))return NextResponse.json({error:"Invalid record"},{status:400});
+ const existing=await (prisma[model] as any).findUnique({where:{id:Number(id)}});
+ if(!existing)return NextResponse.json({error:"Record not found"},{status:404});
+ const clean:any={...data};delete clean.id;delete clean.vehicleId;
+ for(const k of ["amount","cost","mileage","estimatedCost","intervalMiles","intervalMonths","nextDueMileage","mileageFirstNoticed"]) {
+  if(clean[k]!==undefined)clean[k]=clean[k]===""?null:Number(clean[k]);
+ }
+ for(const k of ["date","serviceDate","dateFirstNoticed","issueDate","expirationDate","nextDueDate","resolvedDate"]) {
+  if(clean[k]!==undefined)clean[k]=clean[k]?new Date(clean[k]):null;
+ }
+ if(type==="concern"){if(clean.status==="Resolved"&&!clean.resolvedDate)clean.resolvedDate=new Date();if(clean.status!=="Resolved")clean.resolvedDate=null;}
+ const updated=await (prisma[model] as any).update({where:{id:Number(id)},data:clean});
+ await prisma.timelineEvent.create({data:{vehicleId:existing.vehicleId,type,title:`${clean.title||existing.title} updated`,description:type==="concern"?`Observation status changed to ${clean.status||existing.status}.`:`${type[0].toUpperCase()+type.slice(1)} details were updated.`,date:new Date(),mileage:clean.mileage||clean.mileageFirstNoticed||null,amount:clean.amount||clean.cost||null}});
+ return NextResponse.json(updated);
+}
 export async function DELETE(req:Request){const {type,id}=await req.json();const model=models[type as keyof typeof models];if(!model)return NextResponse.json({error:"Invalid record type"},{status:400});await (prisma[model] as any).delete({where:{id:Number(id)}});return NextResponse.json({ok:true});}

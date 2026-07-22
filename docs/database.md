@@ -60,6 +60,10 @@ Maintenance status is derived from `Vehicle.currentMileage`, the current date, a
 
 The most urgent mileage/date result wins.
 
+The pre-trip verdict is calculated rather than stored. It adds the entered round-trip distance to `Vehicle.currentMileage` and compares the projected odometer with each `MaintenanceItem.nextDueMileage`. Physical checklist completion and seasonal selections are temporary planning state, not authoritative records.
+
+The health score is derived from maintenance, concerns, documents, mileage freshness, and timestamps. It is not stored or represented as a diagnosis.
+
 ## Completion behavior
 
 Completing maintenance uses one Prisma transaction:
@@ -81,6 +85,7 @@ Completing maintenance uses one Prisma transaction:
 - There is no `User` or ownership/authorization model.
 - Manufacturer schedule content and education content are currently application content, not normalized database records.
 - Weather location is not persisted.
+- Recall responses, trip inputs, and seasonal checklist state are not persisted.
+- Generated PDFs are downloaded by the browser and are not stored in SQLite.
 - Documents contain metadata only.
 - Hosted multi-user operation requires migration from a local SQLite file to a durable hosted database and per-vehicle authorization.
-
