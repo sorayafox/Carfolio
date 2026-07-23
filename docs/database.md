@@ -4,6 +4,20 @@
 
 Carfolio uses SQLite through Prisma. The local database URL is configured through `DATABASE_URL`; the development file is `prisma/dev.db` and is ignored by Git.
 
+## Data ownership boundaries
+
+| State class | Examples | Authority |
+| --- | --- | --- |
+| Persisted vehicle records | profile, maintenance, service, observations, expenses, documents, timeline | Prisma and SQLite |
+| Persisted reference corpus | manual document metadata and indexed pages | Prisma and the official imported source |
+| Calculated state | maintenance status, health score, ownership metrics, trip verdict | shared application logic over current inputs |
+| Device-local preference | active vehicle selection | HTTP-only cookie |
+| Session-only state | chat conversation, trip distance, temporary checks | React state |
+| External transient context | forecast, recall search, VIN decoding | external provider response |
+| Generated output | mechanic PDF | browser download from loaded records |
+
+Moving a feature from one class to another is an architectural change. Document retention, migration, privacy, and authorization implications before implementing it.
+
 ## Entity relationships
 
 ```text

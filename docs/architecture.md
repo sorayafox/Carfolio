@@ -70,6 +70,19 @@ Next.js route handlers
 - `lib/symptom-guidance.ts` and `lib/owner-guidance.ts` feed both visible owner tools and deterministic chat answers. Ollama is reserved for open-ended questions that do not match verified records or shared guidance.
 - Date and mileage thresholds should not be duplicated across API routes and pages.
 
+### Shared knowledge and consumers
+
+| Knowledge owner | Primary consumers | Extension rule |
+| --- | --- | --- |
+| `lib/calculations.ts` | server-loaded maintenance states and maintenance workflows | Change status logic once and protect it with behavior tests |
+| `lib/health.ts` | dashboard summary, sidebar health, and health breakdown | Keep one calculated score with transparent category evidence |
+| `lib/weather-guidance.ts` | Conditions and verified chat guidance | Keep live forecast selection in Conditions and shared interpretation in the helper |
+| `lib/symptom-guidance.ts` | Symptom Navigator and verified chat answers | Add recognized observations to the shared registry before adding surface-specific copy |
+| `lib/owner-guidance.ts` | Quick Help and verified chat answers | Add common owner procedures once, with safety boundaries and an official resource |
+| Indexed manual pages | manual search and cited local-AI synthesis | Keep retrieval bounded and citations tied to supplied pages |
+
+This is a transfer map, not an exhaustive module inventory. Add a row when a new shared knowledge family has multiple consumers.
+
 ### Persistence
 
 - `lib/prisma.ts` exposes a development-safe Prisma singleton.
@@ -99,6 +112,14 @@ Maintenance completion is atomic. Updates to maintenance items, service records,
 ## Deployment considerations
 
 The current database is a local SQLite file. A multi-device or hosted version requires a durable hosted relational database, authentication, per-user ownership checks, secrets management, and a migration plan. SQLite should not be treated as a horizontally scalable production store.
+
+## Change-impact guide
+
+- New persisted facts: review Prisma, mutation routes, transactions, timeline behavior, `database.md`, and migration needs.
+- New calculated guidance: create or extend a shared helper, identify every consumer, and add representative behavior tests.
+- New external integration: define failure behavior, privacy boundaries, source labeling, and whether responses persist.
+- New UI workflow: define its authoritative data source, empty/error states, accessibility behavior, and direct navigation contract.
+- New AI capability: decide whether it is deterministic shared guidance, record retrieval, manual retrieval, or open-ended synthesis before changing prompts.
 
 ## Testing
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sync Carfolio Docs"
+  short_description: "Keep Carfolio documentation aligned with changes"
+  default_prompt: "Use $sync-carfolio-docs to audit and update Carfolio’s required documentation after my changes."

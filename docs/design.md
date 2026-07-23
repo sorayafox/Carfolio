@@ -24,6 +24,10 @@ The sidebar exposes six frequent destinations. Historical pages are grouped unde
 
 Use short titles, one-line summaries, and scannable metrics. Keep deeper context inside supporting copy, expandable groups, or focused detail panels.
 
+### Knowledge at the point of decision
+
+Show the verdict first, then its evidence, source, and next action. Do not require users to translate raw records before they can decide what to do. When a related workflow already exists, link to it instead of recreating the full workflow in a card or chat answer.
+
 ## Visual foundation
 
 - Primary blue: `#245f99`
@@ -81,6 +85,15 @@ Active states use both contrast and color. Child navigation is indented and sepa
 - Local AI drawer: existing right-side panel with a trust statement, readable conversational measure, suggested questions, explicit loading and retry states, evidence chips, verified-response marker, cited manual links, and one clear next action when Carfolio already has a related workflow.
 - Chat evidence chips: blue for car’s records, violet for Toyota manual, and amber for general education. Text labels remain mandatory because color is supplementary.
 - Verified chat action: primary blue, descriptive label, arrow icon, and direct navigation to the intended existing workflow.
+
+## Information-state patterns
+
+- Persisted records use save confirmation and remain visible after refresh.
+- Calculated values explain their inputs or offer a route to the breakdown.
+- Session-only tools say that selections are temporary.
+- External context identifies its provider and avoids implying live vehicle telemetry.
+- Safety guidance leads with stop conditions and keeps manufacturer or professional escalation visible.
+- Empty states explain what information is missing and provide the next valid action.
 
 ## Accessibility
 

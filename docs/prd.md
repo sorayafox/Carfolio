@@ -35,6 +35,18 @@ Carfolio should answer:
 
 An everyday vehicle owner who wants to care for their car without becoming a mechanic. The user understands common terms such as mileage and oil change but may not understand hybrid cooling, regenerative brakes, warranty limits, or maintenance intervals.
 
+## Product truth hierarchy
+
+Carfolio must make the source and certainty of information understandable:
+
+1. **Saved ownership records** describe what the owner entered or completed.
+2. **Manufacturer guidance** describes vehicle-specific instructions or schedules and requires an official source.
+3. **Carfolio calculations and estimates** interpret saved data but are not manufacturer requirements.
+4. **External context** such as forecasts, recall searches, and VIN decoding may change and is not vehicle telemetry.
+5. **Mechanical condition** requires physical inspection or diagnostic equipment and is outside the current product.
+
+Future features should fit one of these levels and preserve the distinction in their copy and data model.
+
 ## Core requirements
 
 ### Vehicle profile
@@ -139,3 +151,4 @@ The condensed sidebar keeps Overview, My Car, Maintenance, Car Guide, Conditions
 - Common questions already covered by Carfolio return verified guidance without requiring Ollama and open the relevant existing workflow.
 - A verified chat answer can navigate directly to the related existing Carfolio workflow.
 - Regression tests protect the public AI response contract.
+- A new contributor can identify where a feature’s truth comes from, whether its state persists, and which user workflow owns it.

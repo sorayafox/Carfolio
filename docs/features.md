@@ -1,5 +1,16 @@
 # Feature Reference
 
+## State and source legend
+
+- **Persisted:** authoritative ownership data stored through Prisma and retained after refresh.
+- **Calculated:** derived from current records and time; recalculated rather than stored as truth.
+- **Session-only:** temporary planning or conversation state that resets with the browser session.
+- **Device-local:** a preference stored for this browser or device, not a vehicle fact.
+- **External:** fetched context that may change and is not saved unless a user explicitly creates a record.
+- **Generated:** an export created locally from already-loaded records.
+
+Use these categories when adding features so users and contributors understand what Carfolio remembers.
+
 ## Overview dashboard
 
 Shows the active vehicle’s current mileage, ownership duration, miles since purchase, estimated value range, next service, warranty, tracked costs, recent activity, maintenance outlook, and unresolved observations. The greeting date uses the current local date and refreshes while the app remains open. The value range is a clearly labeled Carfolio depreciation estimate based on the saved purchase price, vehicle age, and miles driven—not current listings or a live market appraisal.
@@ -100,6 +111,9 @@ Searchable and filterable guide to car’s hybrid system, engine, brakes, tires,
 ## Settings
 
 Presents reminder and display preferences and explains local data ownership. Some preference controls are currently presentation-only and should be persisted before expansion.
+
+Settings controls that do not yet persist must not be presented as durable preferences.
+
 ## Owner Tools
 
 The landing view starts with situation-based questions—planning a trip, noticing something unusual, preparing for weather, checking recalls, or visiting a mechanic—before revealing the selected tool.
@@ -112,3 +126,14 @@ The landing view starts with situation-based questions—planning a trip, notici
 - Ownership reports export a mechanic-focused service brief containing vehicle identity, current mileage, due/upcoming maintenance, unresolved observations, and recent service history. Expenses, personal documents, purchase history, and general timeline events are intentionally excluded.
 - A persistent emergency guide covers hybrid 12V jump starting, flat tires, tire inflation, washer fluid, and oil-change safety with ordered steps and official Toyota resources.
 - Toyota Quick Help and chat read their common procedures from `lib/owner-guidance.ts`; the Symptom Navigator and chat share sound guidance from `lib/symptom-guidance.ts`.
+
+## Capability ownership summary
+
+| Capability | State/source |
+| --- | --- |
+| Vehicle, maintenance, service, observations, expenses, documents, and timeline | Persisted |
+| Maintenance status, ownership metrics, estimated value, and combined health | Calculated |
+| Active vehicle selection | Device-local preference |
+| Chat conversation, trip inputs, and temporary checklists | Session-only |
+| Weather, model-level recalls, and VIN decoding | External |
+| Mechanic service brief | Generated locally |

@@ -82,4 +82,13 @@
 - Keep generated vehicle imagery in `public/`.
 - Do not commit `.env`, database files, build output, logs, or TypeScript build metadata.
 - Update documentation when calculation rules, persistence behavior, or navigation changes.
-- Keep the seven product documents together in `docs/`; keep only the minimal root `AGENTS.md` pointer required by tooling.
+- Keep the seven product documents together in `docs/`; keep the root `AGENTS.md` focused on the repository-level knowledge-steward role and route detailed rules into the owning documents.
+
+## Documentation handoff
+
+- Run `$sync-carfolio-docs` after material changes or before handoff.
+- Update the owning document first, then add concise cross-references only where another audience needs them.
+- State whether new data is persisted, calculated, session-only, device-local, external, or generated.
+- Document stable contracts such as statuses, evidence levels, safety boundaries, and transaction outcomes; leave temporary copy and internal sequencing to code.
+- Verify user-visible claims against the implementation and schema claims against Prisma.
+- Use `git diff --check -- docs` and the documentation audit script for documentation-only changes.

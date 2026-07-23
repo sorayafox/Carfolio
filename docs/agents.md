@@ -26,6 +26,14 @@ Carfolio should help an owner understand what their vehicle needs, why it matter
 - Preserve unrelated user changes and do not reset the local database without explicit approval.
 - Keep product documentation broad and durable: document intent, boundaries, extension points, and user-visible behavior; avoid freezing incidental copy, exact test inventories, or tunable implementation counts into requirements.
 
+## Knowledge transfer protocol
+
+- A material change should leave a trace from product intent to implementation boundary, user-visible behavior, and validation without repeating the same detail in every file.
+- For current behavior, verify the implementation. For desired behavior, preserve the PRD. Call out meaningful gaps between them.
+- Identify data as persisted, calculated, session-only, device-local, external, or generated so future contributors know what may safely change.
+- Record durable decisions and extension points; use code and tests for volatile mechanics.
+- Route detail to its owning document: product scope to `prd.md`, current capabilities to `features.md`, runtime boundaries to `architecture.md`, persistence to `database.md`, experience rules to `design.md`, and repeatable contributor rules to `conventions.md`.
+
 ## Required validation
 
 Run before handing off material changes:
@@ -51,6 +59,8 @@ Run `npm run db:seed` only when intentionally recreating demo data. It deletes e
 
 - Use `.agents/skills/tdd` for test-first feature or bug work. Agree on the public seam, demonstrate a failing behavior test, implement the smallest passing change, and repeat vertically.
 - Use `.agents/skills/impeccable` for scoped frontend critique or refinement. Preserve the incumbent Carfolio structure unless the user explicitly requests a redesign, and run its detector once after UI edits.
+- Use `.agents/skills/sync-carfolio-docs` after material product or implementation changes and for documentation audits. Keep the seven documents accurate, consistent, and broad enough for future extension.
+- Delegate a bounded documentation audit or handoff to the project-scoped `carfolio_docs_steward` agent in `.codex/agents/carfolio-docs-steward.toml`. It follows the sync skill, verifies claims against implementation, and reports remaining gaps without changing application behavior.
 - Skills guide the workflow; repository product rules and user instructions still define scope and truth.
 
 ## UX principles
