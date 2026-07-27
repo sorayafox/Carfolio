@@ -8,7 +8,7 @@ required=(agents prd architecture conventions features design database)
 failed=0
 
 for name in "${required[@]}"; do
-  file="docs/$name.md"
+  file="$name.md"
   if [[ ! -s "$file" ]]; then
     echo "MISSING: $file"
     failed=1
@@ -26,7 +26,7 @@ fi
 
 echo "Required documents: present"
 
-changed="$(git status --short --untracked-files=all | awk '{print substr($0,4)}' | grep -Ev '^docs/[^/]+\.md$' || true)"
+changed="$(git status --short --untracked-files=all | awk '{print substr($0,4)}' | grep -Ev '^(agents|prd|architecture|conventions|features|design|database)\.md$' || true)"
 if [[ -z "$changed" ]]; then
   echo "Implementation changes: none detected in the working tree"
   exit 0

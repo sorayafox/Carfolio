@@ -82,7 +82,7 @@
 - Keep generated vehicle imagery in `public/`.
 - Do not commit `.env`, database files, build output, logs, or TypeScript build metadata.
 - Update documentation when calculation rules, persistence behavior, or navigation changes.
-- Keep the seven product documents together in `docs/`; keep the root `AGENTS.md` focused on the repository-level knowledge-steward role and route detailed rules into the owning documents.
+- Keep the seven product documents together in the repository root; keep the knowledge-steward role and detailed agent guidance consolidated in `agents.md`, and route other detailed rules into the owning documents.
 
 ## Documentation handoff
 

@@ -9,20 +9,20 @@ Keep Carfolio's documentation accurate without turning it into a line-by-line im
 
 ## Workflow
 
-1. Read `docs/agents.md` and follow its repository rules.
+1. Read `agents.md` and follow its repository rules.
 2. Run `bash .agents/skills/sync-carfolio-docs/scripts/audit-docs.sh` from the repository root.
 3. Inspect the user's request, relevant code changes, and `git status --short`. Treat the audit output as routing help, not proof that prose is stale.
 4. Read all seven required documents before editing so terminology and boundaries remain consistent:
-   - `docs/agents.md`
-   - `docs/prd.md`
-   - `docs/architecture.md`
-   - `docs/conventions.md`
-   - `docs/features.md`
-   - `docs/design.md`
-   - `docs/database.md`
+   - `agents.md`
+   - `prd.md`
+   - `architecture.md`
+   - `conventions.md`
+   - `features.md`
+   - `design.md`
+   - `database.md`
 5. Update only documents materially affected by the change. Do not force a change into every file.
-6. Run the audit script again and `git diff --check -- docs`.
-7. If implementation changed, run the validation required by `docs/agents.md`. For documentation-only edits, the audit and diff check are sufficient unless the user asks for full validation.
+6. Run the audit script again and `git diff --check -- '*.md'`.
+7. If implementation changed, run the validation required by `agents.md`. For documentation-only edits, the audit and diff check are sufficient unless the user asks for full validation.
 
 ## Route Information to the Right Document
 
