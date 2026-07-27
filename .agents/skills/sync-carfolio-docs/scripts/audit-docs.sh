@@ -4,11 +4,10 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "$0")/../../../.." && pwd)"
 cd "$repo_root"
 
-required=(agents prd architecture conventions features design database)
+required=(AGENTS.md prd.md architecture.md conventions.md features.md design.md database.md)
 failed=0
 
-for name in "${required[@]}"; do
-  file="docs/$name.md"
+for file in "${required[@]}"; do
   if [[ ! -s "$file" ]]; then
     echo "MISSING: $file"
     failed=1
@@ -26,7 +25,7 @@ fi
 
 echo "Required documents: present"
 
-changed="$(git status --short --untracked-files=all | awk '{print substr($0,4)}' | grep -Ev '^docs/[^/]+\.md$' || true)"
+changed="$(git status --short --untracked-files=all | awk '{print substr($0,4)}' | grep -Eiv '^(agents|prd|architecture|conventions|features|design|database|readme)\.md$' || true)"
 if [[ -z "$changed" ]]; then
   echo "Implementation changes: none detected in the working tree"
   exit 0

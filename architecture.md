@@ -7,7 +7,8 @@ Carfolio is a server-rendered Next.js application with a client-side application
 ```text
 Browser
   ├─ Server-rendered route: /[section]
-  ├─ Client UI and forms: components/AppShell.tsx
+  ├─ Client coordination: components/AppShell.tsx
+  ├─ Feature UI and forms: components/app-shell/
   ├─ Browser geolocation (optional)
   ├─ Open-Meteo forecast request
   ├─ NHTSA model-level recall request
@@ -38,7 +39,9 @@ Next.js route handlers
 
 ### Client application
 
-- `components/AppShell.tsx` contains navigation, section presentation, modal forms, weather loading, education content, and client interactions.
+- `components/AppShell.tsx` owns cross-section coordination: navigation, active overlays, shared mutation state, server refreshes, and selection of the current section.
+- `components/app-shell/` owns focused client features and presentation, including the dashboard, Conditions, Car Guide, Owner Tools, emergency guidance, and record or vehicle forms. Feature-local state stays with its feature component.
+- Stable educational reference content lives outside the shell in domain-oriented `lib/` modules so large knowledge collections do not obscure interaction logic.
 - `router.refresh()` reloads server-derived data after a successful mutation.
 - Device geolocation is requested only after the user selects **Use my location**.
 - The dashboard date refreshes every minute so an open session rolls over correctly.

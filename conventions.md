@@ -8,6 +8,7 @@
 - Do not use array indexes as keys when a record ID or stable label exists.
 - Use semantic elements, accessible names, and explicit button types inside forms.
 - Keep hooks at component scope and declare derived values after state.
+- Keep `AppShell` responsible for cross-section coordination. Put feature rendering, feature-local state, and focused forms in named modules under `components/app-shell/`; keep reusable domain knowledge in `lib/`.
 
 ## Naming
 
@@ -82,7 +83,7 @@
 - Keep generated vehicle imagery in `public/`.
 - Do not commit `.env`, database files, build output, logs, or TypeScript build metadata.
 - Update documentation when calculation rules, persistence behavior, or navigation changes.
-- Keep the seven product documents together in `docs/`; keep the root `AGENTS.md` focused on the repository-level knowledge-steward role and route detailed rules into the owning documents.
+- Keep all seven product documents in the repository root. `AGENTS.md` serves both as Codex’s auto-loaded repository guidance and as the required agent document; do not create a case-variant `agents.md` beside it.
 
 ## Documentation handoff
 
@@ -91,4 +92,4 @@
 - State whether new data is persisted, calculated, session-only, device-local, external, or generated.
 - Document stable contracts such as statuses, evidence levels, safety boundaries, and transaction outcomes; leave temporary copy and internal sequencing to code.
 - Verify user-visible claims against the implementation and schema claims against Prisma.
-- Use `git diff --check -- docs` and the documentation audit script for documentation-only changes.
+- Use `git diff --check -- AGENTS.md prd.md architecture.md conventions.md features.md design.md database.md` and the documentation audit script for documentation-only changes.

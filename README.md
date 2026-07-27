@@ -2,6 +2,28 @@
 
 Carfolio is a complete vehicle-ownership dashboard: a digital health record for maintenance, service, observations, costs, documents, mileage, and the full life of a car. The included fictional demo garage contains a dark grey 2024 Toyota Corolla Hybrid named **Kitty**.
 
+## Project documentation
+
+The seven required project documents live in the repository root:
+
+- [Agent guidance](AGENTS.md)
+- [Product requirements](prd.md)
+- [Architecture](architecture.md)
+- [Engineering conventions](conventions.md)
+- [Feature reference](features.md)
+- [Product design](design.md)
+- [Database design](database.md)
+
+## Development skills used
+
+Carfolio uses project-local skills from [skills.sh](https://skills.sh/) as repeatable development workflows:
+
+- **TDD** (`.agents/skills/tdd`) defines the public-seam, behavior-first testing workflow. It was applied to the AI chat route, whose integration tests protect verified weather, trip, maintenance, symptom, and emergency-guidance answers without coupling tests to private implementation details.
+- **Impeccable** (`.agents/skills/impeccable`) guides frontend UX, accessibility, responsive behavior, and visual-quality reviews. It has been applied to Carfolio’s dashboard and app-shell refinement, including a mechanical detector pass over the shell, feature components, and global styles.
+- **Sync Carfolio Docs** (`.agents/skills/sync-carfolio-docs`) is the project’s custom documentation workflow. It audits and updates the seven required documents after material changes and prepares a concise knowledge-transfer handoff.
+
+`AGENTS.md` routes future work to the appropriate skill so they remain active workflows rather than one-time installations.
+
 ## Run locally
 
 ```bash
