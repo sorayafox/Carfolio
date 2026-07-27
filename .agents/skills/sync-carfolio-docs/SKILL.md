@@ -7,13 +7,25 @@ description: Keep Carfolio's seven required Markdown documents aligned with mate
 
 Keep Carfolio's documentation accurate without turning it into a line-by-line implementation transcript.
 
+## Use This Skill When
+
+Use this skill when:
+
+- A product feature, workflow, UI behavior, API, calculation, database model, AI capability, or testing policy has materially changed.
+- One or more of Carfolio's seven required documents may no longer match the implementation.
+- The user asks to update, review, audit, organize, or verify the project documentation.
+- A contributor needs a concise knowledge-transfer handoff after completing work.
+- The project is being prepared for submission, review, or transfer to another contributor.
+
+Do not run a full documentation rewrite for formatting-only edits, dependency installation, or other changes that do not affect durable product knowledge. Audit first and update only the documents that own the changed information.
+
 ## Workflow
 
-1. Read `agents.md` and follow its repository rules.
+1. Read the root `AGENTS.md` and follow its repository rules.
 2. Run `bash .agents/skills/sync-carfolio-docs/scripts/audit-docs.sh` from the repository root.
 3. Inspect the user's request, relevant code changes, and `git status --short`. Treat the audit output as routing help, not proof that prose is stale.
 4. Read all seven required documents before editing so terminology and boundaries remain consistent:
-   - `agents.md`
+   - `AGENTS.md`
    - `prd.md`
    - `architecture.md`
    - `conventions.md`
@@ -21,8 +33,8 @@ Keep Carfolio's documentation accurate without turning it into a line-by-line im
    - `design.md`
    - `database.md`
 5. Update only documents materially affected by the change. Do not force a change into every file.
-6. Run the audit script again and `git diff --check -- '*.md'`.
-7. If implementation changed, run the validation required by `agents.md`. For documentation-only edits, the audit and diff check are sufficient unless the user asks for full validation.
+6. Run the audit script again and `git diff --check -- AGENTS.md prd.md architecture.md conventions.md features.md design.md database.md`.
+7. If implementation changed, run the validation required by `AGENTS.md`. For documentation-only edits, the audit and diff check are sufficient unless the user asks for full validation.
 
 ## Route Information to the Right Document
 
@@ -32,7 +44,7 @@ Keep Carfolio's documentation accurate without turning it into a line-by-line im
 - `database.md`: persisted entities, relationships, calculated state, transaction behavior, and migration constraints.
 - `design.md`: experience principles, visual language, interaction patterns, accessibility, and responsive behavior.
 - `conventions.md`: repeatable engineering, copy, testing, API, and styling rules.
-- `agents.md`: product guardrails, validation requirements, skill routing, and rules future agents must always follow.
+- `AGENTS.md`: product guardrails, validation requirements, skill routing, and rules future agents must always follow.
 
 ## Keep Documentation Durable
 
