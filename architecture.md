@@ -1,5 +1,9 @@
 # Architecture
 
+**Purpose:** Explains Carfolio’s runtime boundaries, data flow, application layers, integrations, and deployment implications.
+
+**DRY:** Keep technical system boundaries here and link to implementation or data documentation rather than duplicating their details.
+
 ## System overview
 
 Carfolio is a server-rendered Next.js application with a client-side application shell and SQLite persistence through Prisma.

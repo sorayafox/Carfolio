@@ -1,5 +1,9 @@
 # Engineering Conventions
 
+**Purpose:** Defines repeatable engineering, testing, API, copy, styling, and repository-hygiene rules.
+
+**DRY:** State each reusable convention once here and reference it from other documents instead of restating it.
+
 ## TypeScript and React
 
 - Use strict TypeScript and avoid untyped data at new boundaries.

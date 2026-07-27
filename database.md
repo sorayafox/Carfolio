@@ -1,5 +1,9 @@
 # Database Design
 
+**Purpose:** Defines persisted entities, relationships, calculated state, transaction behavior, and migration constraints.
+
+**DRY:** Keep data ownership and persistence rules here and link to architecture or feature documentation instead of repeating them.
+
 ## Storage
 
 Carfolio uses SQLite through Prisma. The local database URL is configured through `DATABASE_URL`; the development file is `prisma/dev.db` and is ignored by Git.

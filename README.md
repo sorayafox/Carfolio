@@ -1,5 +1,9 @@
 # Carfolio
 
+**Purpose:** Introduces Carfolio, local setup, core calculations, limitations, and the project-documentation map.
+
+**DRY:** Keep detailed requirements and implementation rules in their owning documents; link to them here instead of repeating them.
+
 Carfolio is a complete vehicle-ownership dashboard: a digital health record for maintenance, service, observations, costs, documents, mileage, and the full life of a car. The included fictional demo garage contains a dark grey 2024 Toyota Corolla Hybrid named **Kitty**.
 
 ## Project documentation

@@ -1,5 +1,9 @@
 # Carfolio Product Requirements
 
+**Purpose:** Defines Carfolio’s users, outcomes, scope, requirements, non-goals, and success criteria.
+
+**DRY:** Keep product intent here; reference feature, design, architecture, and data details from their owning documents instead of repeating them.
+
 ## Summary
 
 Carfolio is a complete vehicle ownership dashboard and digital health record. It combines a vehicle profile, maintenance intelligence, service history, ownership costs, editable document metadata, observations, local driving conditions, vehicle education, trip readiness, recall context, emergency guidance, and portable reporting.

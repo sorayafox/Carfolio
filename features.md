@@ -1,5 +1,9 @@
 # Feature Reference
 
+**Purpose:** Records Carfolio’s current user-visible capabilities, workflows, calculations, states, and limitations.
+
+**DRY:** Describe current behavior here and link to product, design, architecture, or database rules instead of duplicating them.
+
 ## State and source legend
 
 - **Persisted:** authoritative ownership data stored through Prisma and retained after refresh.

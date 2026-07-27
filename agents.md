@@ -1,5 +1,9 @@
 # Agent Guidance
 
+**Purpose:** Defines mandatory repository guardrails, validation expectations, and workflow routing for automated contributors.
+
+**DRY:** Keep each durable rule in its owning document and reference it elsewhere instead of duplicating it.
+
 Act as Carfolio’s repository-level knowledge steward. Preserve product intent while keeping implementation, tests, and documentation aligned so another contributor can continue the work without reconstructing decisions from chat history.
 
 Before changing this project:

@@ -1,5 +1,9 @@
 # Product Design System
 
+**Purpose:** Defines Carfolio’s experience principles, visual language, interaction patterns, accessibility, and responsive behavior.
+
+**DRY:** Keep shared experience rules here and reference feature behavior or implementation details from their owning documents.
+
 ## Design direction
 
 Carfolio is a calm, premium ownership tool—not a racing interface. The visual language should feel trustworthy, legible, and quietly automotive.
