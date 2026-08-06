@@ -6,6 +6,8 @@
 
 Carfolio is a complete vehicle-ownership dashboard: a digital health record for maintenance, service, observations, costs, documents, mileage, and the full life of a car. The included fictional demo garage contains a dark grey 2024 Toyota Corolla Hybrid named **Kitty**.
 
+![Carfolio feature tour](.github/assets/features-tour.gif)
+
 ## Project documentation
 
 The seven required project documents live in the repository root:
